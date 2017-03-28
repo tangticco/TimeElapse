@@ -54,7 +54,7 @@ public class MainActivity extends Activity {
                 camera_intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(file));
                 startActivityForResult(camera_intent,camera_request);
             }
-        }
+        });
 
     }
 
