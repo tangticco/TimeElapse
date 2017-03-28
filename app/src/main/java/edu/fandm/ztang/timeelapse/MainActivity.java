@@ -75,4 +75,15 @@ public class MainActivity extends Activity {
         ImageView image = (ImageView)findViewById(R.id.view);
         image.setImageDrawable(Drawable.createFromPath(path));
     }
+
+    /**
+     * A controller to open the thumbnail grid view of videos
+     * @param v
+     */
+    public void showAlbum(View v){
+
+        Intent intent = new Intent(this, VideoThumbGridAvitivity.class);
+        startActivity(intent);
+
+    }
 }

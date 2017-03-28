@@ -21,6 +21,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".VideoThumbGridAvitivity" />
+        <activity android:name=".PlayVideoActivity"></activity>
     </application>
 
 </manifest>
