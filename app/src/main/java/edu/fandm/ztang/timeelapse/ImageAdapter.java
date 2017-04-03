@@ -45,7 +45,7 @@ public class ImageAdapter extends BaseAdapter {
      */
     public long getItemId(int position) {
         //TODO implementation
-        return 0;
+        return mThumbIds[position];
     }
 
     // create a new ImageView for each item referenced by the Adapter
@@ -54,7 +54,7 @@ public class ImageAdapter extends BaseAdapter {
         if (convertView == null) {
             // if it's not recycled, initialize some attributes
             imageView = new ImageView(mContext);
-            imageView.setLayoutParams(new GridView.LayoutParams(85, 85));
+            imageView.setLayoutParams(new GridView.LayoutParams(285, 285));
             imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
             imageView.setPadding(8, 8, 8, 8);
         } else {
