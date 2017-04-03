@@ -1,15 +1,20 @@
 package edu.fandm.ztang.timeelapse;
 
 import android.graphics.drawable.Drawable;
+import android.os.Handler;
 import android.support.v4.content.res.ResourcesCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.ImageView;
 
 import edu.fandm.ztang.timeelapse.ImageAdapter;
 
 
 public class PlayVideoActivity extends AppCompatActivity {
+
+
+    private int playPosition = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,6 +34,26 @@ public class PlayVideoActivity extends AppCompatActivity {
 
 
 
+    }
+
+
+    public void playVideo(View v){
+        final Handler h = new Handler();
+        final int delay = 33; //milliseconds
+
+        h.postDelayed(new Runnable(){
+            public void run(){
+                //do something
+
+                ImageView iv = (ImageView)findViewById(R.id.imageView);
+                if(playPosition < mThumbIds.length){
+                    iv.setImageResource(mThumbIds[playPosition]);
+                    playPosition += 1;
+                }
+
+                h.postDelayed(this, delay);
+            }
+        }, delay);
     }
 
 

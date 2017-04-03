@@ -113,5 +113,16 @@ public class MainActivity extends AppCompatActivity {
         Bitmap bitmap = BitmapFactory.decodeFile(mCurrentPhotoPath, bmOptions);
         mImageView.setImageBitmap(bitmap);
     }
+
+    /**
+     * A controller to open the thumbnail grid view of videos
+     * @param v
+     */
+    public void showAlbum(View v){
+
+        Intent intent = new Intent(this, VideoThumbGridAvitivity.class);
+        startActivity(intent);
+
+    }
 }
 
