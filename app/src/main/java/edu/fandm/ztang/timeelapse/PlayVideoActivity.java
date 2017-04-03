@@ -34,7 +34,6 @@ public class PlayVideoActivity extends AppCompatActivity {
 
         ImageView iv = (ImageView)findViewById(R.id.imageView);
         File targetFolder = new File(filepath);
-        File previewImage;
         for (final File fileEntry : targetFolder.listFiles()) {
             if (fileEntry.getName().equals("1.jpg")){
                 Bitmap myBitmap = BitmapFactory.decodeFile(fileEntry.getAbsolutePath());
@@ -48,6 +47,7 @@ public class PlayVideoActivity extends AppCompatActivity {
     }
 
 
+    /**
     public void playVideo(View v){
         final Handler h = new Handler();
         final int delay = 33; //milliseconds
@@ -83,4 +83,6 @@ public class PlayVideoActivity extends AppCompatActivity {
             R.drawable.sample_4, R.drawable.sample_5,
             R.drawable.sample_6, R.drawable.sample_7
     };
+
+     */
 }

@@ -36,8 +36,16 @@ public class VideoThumbGridAvitivity extends AppCompatActivity {
         getFolderList();
 
         //hook up the grid view
-        GridView gridview = (GridView) findViewById(R.id.gridview);
-        gridview.setAdapter(new ImageAdapter(this, folderGrid));
+        final GridView gridview = (GridView) findViewById(R.id.gridview);
+        Thread gridThread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                gridview.setAdapter(new ImageAdapter(mContext, folderGrid));
+            }
+        }, "Grid Display Thread");
+        gridThread.start();
+
+
 
 
         //set the onClickListener of the gridview
@@ -71,7 +79,8 @@ public class VideoThumbGridAvitivity extends AppCompatActivity {
 
         //TODO check permission
 
-        File storageDir = new File(Environment.getExternalStorageState());
+        File root = Environment.getExternalStorageDirectory();
+        File storageDir = new File(root.getAbsolutePath() + "/TimeElapse");
         Log.d("Storage Path: ", storageDir.getAbsolutePath());
         for (final File fileEntry : storageDir.listFiles()) {
             Log.d("Loop", "anything?");
