@@ -13,4 +13,13 @@
         android:layout_centerInParent="true"
         />
 
+    <Button
+        android:id="@+id/button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Play"
+        tools:layout_editor_absoluteX="150dp"
+        tools:layout_editor_absoluteY="458dp"
+        android:onClick="playVideo"/>
+
 </android.support.constraint.ConstraintLayout>
