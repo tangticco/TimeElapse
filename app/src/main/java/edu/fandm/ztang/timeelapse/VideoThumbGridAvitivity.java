@@ -47,10 +47,13 @@ public class VideoThumbGridAvitivity extends AppCompatActivity {
                 Toast.makeText(VideoThumbGridAvitivity.this, ""  + position,
                         Toast.LENGTH_SHORT).show();
 
+                String filePath = folderGrid.get(position).getAbsolutePath();
+
                 Intent intent = new Intent(mContext, PlayVideoActivity.class);
                 Bundle b = new Bundle();
-                b.putInt("key", position); //Your id
-                intent.putExtras(b); //Put your id to your next Intent
+                b.putString("path", filePath);
+
+                intent.putExtras(b);
                 startActivity(intent);
 
 
@@ -68,7 +71,7 @@ public class VideoThumbGridAvitivity extends AppCompatActivity {
 
         //TODO check permission
 
-        File storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
+        File storageDir = new File(Environment.getExternalStorageState());
         Log.d("Storage Path: ", storageDir.getAbsolutePath());
         for (final File fileEntry : storageDir.listFiles()) {
             Log.d("Loop", "anything?");

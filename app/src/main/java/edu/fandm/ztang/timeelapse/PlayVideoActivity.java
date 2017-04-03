@@ -27,13 +27,13 @@ public class PlayVideoActivity extends AppCompatActivity {
 
 
         Bundle b = getIntent().getExtras();
-        int position = -1; // or other values
+        String filepath = ""; // or other values
         if(b != null){
-            position = b.getInt("key");
+            filepath = b.getString("path");
         }
 
         ImageView iv = (ImageView)findViewById(R.id.imageView);
-        File targetFolder = folderGrid.get(position);
+        File targetFolder = new File(filepath);
         File previewImage;
         for (final File fileEntry : targetFolder.listFiles()) {
             if (fileEntry.getName().equals("1.jpg")){

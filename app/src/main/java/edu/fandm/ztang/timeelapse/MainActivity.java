@@ -41,7 +41,7 @@ public class MainActivity extends AppCompatActivity {
         if (permission != PackageManager.PERMISSION_GRANTED) {
             Log.i(TAG, "Permission to record denied");
             //Request runtime permissions
-            String[] permissions = {Manifest.permission.WRITE_EXTERNAL_STORAGE};
+            String[] permissions = {Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.RECORD_AUDIO};
             ActivityCompat.requestPermissions(this, permissions, PERMS_REQUEST_CODE);
 
         }
@@ -82,7 +82,7 @@ public class MainActivity extends AppCompatActivity {
 
             for(int i=1; i<2; i++){
                 File photoFile = new File(photoFolder, counter + ".jpg");
-                photoFile.mkdirs();
+
                 counter++;
                 Uri photoURI = FileProvider.getUriForFile(this,
                         "edu.fandm.android.fileprovider",
@@ -162,6 +162,17 @@ public class MainActivity extends AppCompatActivity {
 
         Bitmap bitmap = BitmapFactory.decodeFile(mCurrentPhotoPath, bmOptions);
         mImageView.setImageBitmap(bitmap);
+    }
+
+    /**
+     * A controller to open the thumbnail grid view of videos
+     * @param v
+     */
+    public void showAlbum(View v){
+
+        Intent intent = new Intent(this, VideoThumbGridAvitivity.class);
+        startActivity(intent);
+
     }
 }
 
