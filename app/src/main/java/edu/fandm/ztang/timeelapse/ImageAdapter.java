@@ -1,11 +1,17 @@
 package edu.fandm.ztang.timeelapse;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.GridView;
 import android.widget.ImageView;
+
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.util.ArrayList;
 
 /**
  * Created by zhuofantang on 3/27/17
@@ -14,8 +20,10 @@ import android.widget.ImageView;
 
 public class ImageAdapter extends BaseAdapter {
     private Context mContext;
+    private ArrayList<File> folderGrid = null;
 
-    public ImageAdapter(Context c) {
+    public ImageAdapter(Context c, ArrayList<File> folders) {
+        folderGrid = folders;
         mContext = c;
     }
 
@@ -24,7 +32,7 @@ public class ImageAdapter extends BaseAdapter {
      * @return the number of image thumbnails on screen
      */
     public int getCount() {
-        return mThumbIds.length;
+        return folderGrid.size();
     }
 
     /**
@@ -45,7 +53,7 @@ public class ImageAdapter extends BaseAdapter {
      */
     public long getItemId(int position) {
         //TODO implementation
-        return mThumbIds[position];
+        return 0;
     }
 
     // create a new ImageView for each item referenced by the Adapter
@@ -61,7 +69,17 @@ public class ImageAdapter extends BaseAdapter {
             imageView = (ImageView) convertView;
         }
 
-        imageView.setImageResource(mThumbIds[position]);
+
+        File targetFolder = folderGrid.get(position);
+        File previewImage;
+        for (final File fileEntry : targetFolder.listFiles()) {
+            if (fileEntry.getName().equals("1.jpg")){
+                Bitmap myBitmap = BitmapFactory.decodeFile(fileEntry.getAbsolutePath());
+                imageView.setImageBitmap(myBitmap);
+
+            }
+        }
+
         return imageView;
     }
 
