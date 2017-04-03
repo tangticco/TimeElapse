@@ -43,7 +43,7 @@ public class VideoThumbGridAvitivity extends AppCompatActivity {
                 startActivity(intent);
 
 
-
+            //minor change
             }
         });
 
