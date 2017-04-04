@@ -35,13 +35,14 @@ import java.util.Date;
 public class MainActivity extends AppCompatActivity implements View.OnClickListener, SurfaceHolder.Callback{
     private String TAG = "TimeElapse";
 
-    MediaRecorder recorder;
-    SurfaceHolder holder;
-    boolean recording = false;
+    private Camera camera;
+    private MediaRecorder recorder;
+    private SurfaceHolder holder;
+    private boolean recording = false;
 
     private final int PERMS_REQUEST_CODE = 1;
 
-    private double fpsRate = 0.1;
+    private double fpsRate = 5;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,17 +72,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             }
         }
 
-        //Set up recorder
-        recorder = new MediaRecorder();
-        initRecorder();
-
-        SurfaceView cameraView = (SurfaceView) findViewById(R.id.CameraView);
-        holder = cameraView.getHolder();
-        holder.addCallback(this);
-
-        cameraView.setClickable(true);
-        cameraView.setOnClickListener(this);
-
 
         final SeekBar fpsController = (SeekBar)findViewById(R.id.seekBar);
         fpsController.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
@@ -96,11 +86,30 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
                 if(fpsController.getProgress() != 0){
-                    fpsRate = (fpsController.getProgress()/fpsController.getMax()) * 6 + 2 ;
+                    fpsRate = (fpsController.getProgress()/fpsController.getMax()) * 10 + 5 ;
                 }
                 Toast.makeText(MainActivity.this, "FPS set to " + String.valueOf(fpsRate), Toast.LENGTH_SHORT).show();
             }
         });
+
+        camera = getCameraInstance();
+        camera.setDisplayOrientation(270);
+        //Set up recorder
+        recorder = new MediaRecorder();
+        camera.unlock();
+        recorder.setCamera(camera);
+
+
+//        initRecorder();
+
+        SurfaceView cameraView = (SurfaceView) findViewById(R.id.CameraView);
+        holder = cameraView.getHolder();
+        holder.addCallback(this);
+
+        cameraView.setClickable(true);
+        cameraView.setOnClickListener(this);
+
+
 
     }
     /**
@@ -120,7 +129,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         recorder.setAudioSource(MediaRecorder.AudioSource.DEFAULT);
         recorder.setVideoSource(MediaRecorder.VideoSource.DEFAULT);
-        recorder.setOrientationHint(90);
+        recorder.setOrientationHint(180);
 
         // Create the File where the photo should go
         String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
@@ -133,7 +142,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         File videoFile = new File(Dir.getPath() + File.separator + "VID_" + timeStamp + ".mp4");
 
 
-        recorder.setProfile(CamcorderProfile.get(CamcorderProfile.QUALITY_LOW));
+        recorder.setProfile(CamcorderProfile.get(CamcorderProfile.QUALITY_HIGH));
         recorder.setOutputFile(videoFile.toString());
         recorder.setMaxDuration(1000000); // 50 seconds
         recorder.setMaxFileSize(500000000); // Approximately 500 megabytes
@@ -163,16 +172,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             recording = false;
 
             // Let's initRecorder so we can record again
+        } else {
             initRecorder();
             prepareRecorder();
-        } else {
+
             recording = true;
             recorder.start();
         }
     }
 
     public void surfaceCreated(SurfaceHolder holder) {
-        prepareRecorder();
+//        prepareRecorder();
     }
 
     public void surfaceChanged(SurfaceHolder holder, int format, int width,
@@ -186,6 +196,19 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
         recorder.release();
         finish();
+    }
+
+
+
+    public static Camera getCameraInstance(){
+        Camera c = null;
+        try {
+            c = Camera.open(); // attempt to get a Camera instance
+        }
+        catch (Exception e){
+            // Camera is not available (in use or does not exist)
+        }
+        return c; // returns null if camera is unavailable
     }
 }
 
