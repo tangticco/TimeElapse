@@ -19,6 +19,7 @@ import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.View;
 import android.widget.SeekBar;
+import android.widget.Toast;
 
 import java.io.File;
 import java.io.IOException;
@@ -77,10 +78,27 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         cameraView.setOnClickListener(this);
 
 
-        SeekBar fpsController = (SeekBar)findViewById(R.id.seekBar);
-        if(fpsController.getProgress() != 0){
-            fpsRate = fpsController.getProgress()/fpsController.getMax() * 0.2 + 1;
-        }
+        final SeekBar fpsController = (SeekBar)findViewById(R.id.seekBar);
+        fpsController.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+
+
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+                if(fpsController.getProgress() != 0){
+                    fpsRate = (fpsController.getProgress()/fpsController.getMax()) * 0.2 ;
+                }
+                Toast.makeText(MainActivity.this, "FPS set to " + String.valueOf(fpsRate), Toast.LENGTH_SHORT).show();
+            }
+        });
 
     }
 
@@ -118,7 +136,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         recorder.setProfile(cpHigh);
         recorder.setOutputFile(videoFile.getAbsolutePath());
-        recorder.setMaxDuration(10000); // 50 seconds
+        recorder.setMaxDuration(1000000); // 50 seconds
         recorder.setMaxFileSize(500000000); // Approximately 500 megabytes
         recorder.setCaptureRate(fpsRate);
     }
