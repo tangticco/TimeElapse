@@ -38,7 +38,7 @@ public class MainActivity extends AppCompatActivity {
             Log.i(TAG, "Permission to record denied");
             //Request runtime permissions
             String[] permissions = {Manifest.permission.WRITE_EXTERNAL_STORAGE,
-                    Manifest.permission.RECORD_AUDIO};
+                    Manifest.permission.RECORD_AUDIO, Manifest.permission.CAMERA};
             ActivityCompat.requestPermissions(this, permissions, PERMS_REQUEST_CODE);
 
         }
@@ -89,6 +89,18 @@ public class MainActivity extends AppCompatActivity {
         startActivity(i);
     }
 
+
+
+    /**
+     * A controller to open the thumbnail grid view of videos
+     * @param v
+     */
+    public void showAlbum(View v){
+
+        Intent intent = new Intent(this, VideoThumbGridAvitivity.class);
+        startActivity(intent);
+
+    }
 
 }
 

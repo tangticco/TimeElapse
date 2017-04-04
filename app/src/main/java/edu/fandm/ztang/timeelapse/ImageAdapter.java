@@ -4,6 +4,8 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.media.ThumbnailUtils;
+import android.provider.MediaStore;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -21,11 +23,11 @@ import java.util.ArrayList;
 
 public class ImageAdapter extends BaseAdapter {
     private Context mContext;
-    private ArrayList<File> folderGrid = null;
+    private ArrayList<File> videoList = null;
     final int THUMBSIZE = 128;
 
     public ImageAdapter(Context c, ArrayList<File> folders) {
-        folderGrid = folders;
+        videoList = folders;
         mContext = c;
     }
 
@@ -35,7 +37,7 @@ public class ImageAdapter extends BaseAdapter {
      * @return the number of image thumbnails on screen
      */
     public int getCount() {
-        return folderGrid.size();
+        return videoList.size();
     }
 
     /**
@@ -75,15 +77,11 @@ public class ImageAdapter extends BaseAdapter {
         }
 
 
-        File targetFolder = folderGrid.get(position);
-        File previewImage;
-        for (final File fileEntry : targetFolder.listFiles()) {
-            if (fileEntry.getName().equals("1.jpg")) {
-                Bitmap myBitmap = ThumbnailUtils.extractThumbnail(BitmapFactory.decodeFile(fileEntry.getAbsolutePath()), THUMBSIZE, THUMBSIZE);
-                imageView.setImageBitmap(myBitmap);
+        String targetFile = videoList.get(position).getAbsolutePath();
 
-            }
-        }
+        Bitmap thumb = ThumbnailUtils.createVideoThumbnail(targetFile, MediaStore.Images.Thumbnails.MINI_KIND);
+        Log.d("Progress", "should display thumb");
+        imageView.setImageBitmap(thumb);
 
         return imageView;
     }
