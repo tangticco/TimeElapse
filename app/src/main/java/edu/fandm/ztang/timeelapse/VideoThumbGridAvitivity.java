@@ -52,8 +52,6 @@ public class VideoThumbGridAvitivity extends AppCompatActivity {
         gridview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, android.view.View v,
                                     int position, long id) {
-                Toast.makeText(VideoThumbGridAvitivity.this, ""  + position,
-                        Toast.LENGTH_SHORT).show();
 
                 String filePath = videoList.get(position).getAbsolutePath();
 
@@ -77,7 +75,7 @@ public class VideoThumbGridAvitivity extends AppCompatActivity {
      */
     private void getFolderList(){
 
-        //TODO check permission
+
 
         File root = Environment.getExternalStorageDirectory();
         File storageDir = new File(root.getAbsolutePath() + "/TimeElapse");

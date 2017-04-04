@@ -1,5 +1,6 @@
 package edu.fandm.ztang.timeelapse;
 
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.PixelFormat;
@@ -18,6 +19,7 @@ import android.widget.ImageView;
 import android.widget.MediaController;
 import android.widget.Spinner;
 import android.widget.Toast;
+import android.widget.ToggleButton;
 import android.widget.VideoView;
 
 import java.io.File;
@@ -29,6 +31,9 @@ import edu.fandm.ztang.timeelapse.ImageAdapter;
 public class PlayVideoActivity extends AppCompatActivity {
 
     private MediaController ctlr;
+    private boolean isVideoPlaying = false;
+    private String filepath = "";
+    private Context mContext = this;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,20 +43,47 @@ public class PlayVideoActivity extends AppCompatActivity {
 
 
         Bundle b = getIntent().getExtras();
-        String filepath = ""; // or other values
+
         if(b != null){
             filepath = b.getString("path");
         }
+    }
 
-        VideoView myVideo = (VideoView)findViewById(R.id.videoView);
+    private void videoController() {
 
+
+    }
+
+
+    public void videoControl(View v){
+        ToggleButton controlVideo = (ToggleButton)findViewById(R.id.toggleButton);
+        VideoView myVideo = (VideoView) findViewById(R.id.videoView);
+
+
+        //configure a video controller to play the video
         myVideo.setVideoPath(filepath);
-
-        ctlr = new MediaController(this);
+        ctlr = new MediaController(mContext);
         ctlr.setMediaPlayer(myVideo);
         myVideo.setMediaController(ctlr);
         myVideo.requestFocus();
-        myVideo.start();
+        myVideo.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+            public void onCompletion(MediaPlayer mp) {
+                isVideoPlaying = false;
+            }
+        });
+
+
+        if(!isVideoPlaying){
+            myVideo.start();
+            isVideoPlaying = true;
+            controlVideo.setTextOff("Play");
+        }else{
+            myVideo.stopPlayback();
+            isVideoPlaying = false;
+            controlVideo.setTextOff("Stop");
+        }
+
+
 
 
     }
