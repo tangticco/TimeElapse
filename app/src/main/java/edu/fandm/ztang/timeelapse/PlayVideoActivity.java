@@ -55,7 +55,13 @@ public class PlayVideoActivity extends AppCompatActivity {
     }
 
 
+    /**
+     * A method to control the video playback
+     * @param v
+     */
     public void videoControl(View v){
+
+        //connect
         ToggleButton controlVideo = (ToggleButton)findViewById(R.id.toggleButton);
         VideoView myVideo = (VideoView) findViewById(R.id.videoView);
 
