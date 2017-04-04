@@ -4,6 +4,9 @@ package edu.fandm.ztang.timeelapse;
 import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.hardware.Camera;
+import android.hardware.camera2.CameraCaptureSession;
+import android.hardware.camera2.CameraConstrainedHighSpeedCaptureSession;
 import android.media.CamcorderProfile;
 import android.media.MediaRecorder;
 import android.net.Uri;
@@ -22,6 +25,9 @@ import android.widget.SeekBar;
 import android.widget.Toast;
 
 import java.io.File;
+import java.io.FileDescriptor;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -72,7 +78,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         SurfaceView cameraView = (SurfaceView) findViewById(R.id.CameraView);
         holder = cameraView.getHolder();
         holder.addCallback(this);
-        holder.setType(SurfaceHolder.SURFACE_TYPE_PUSH_BUFFERS);
 
         cameraView.setClickable(true);
         cameraView.setOnClickListener(this);
@@ -82,26 +87,22 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         fpsController.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-
-
             }
 
             @Override
             public void onStartTrackingTouch(SeekBar seekBar) {
-
             }
 
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
                 if(fpsController.getProgress() != 0){
-                    fpsRate = (fpsController.getProgress()/fpsController.getMax()) * 0.2 ;
+                    fpsRate = (fpsController.getProgress()/fpsController.getMax()) * 6 + 2 ;
                 }
                 Toast.makeText(MainActivity.this, "FPS set to " + String.valueOf(fpsRate), Toast.LENGTH_SHORT).show();
             }
         });
 
     }
-
     /**
      * A controller to open the thumbnail grid view of videos
      * @param v
@@ -129,15 +130,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         if(!Dir.exists()){ // Create one if there is not
             Dir.mkdirs();
         }
-        File videoFile = new File(Dir, File.separator + timeStamp + ".mp4");
+        File videoFile = new File(Dir.getPath() + File.separator + "VID_" + timeStamp + ".mp4");
 
-        CamcorderProfile cpHigh = CamcorderProfile
-                .get(CamcorderProfile.QUALITY_HIGH);
 
-        recorder.setProfile(cpHigh);
-        recorder.setOutputFile(videoFile.getAbsolutePath());
+        recorder.setProfile(CamcorderProfile.get(CamcorderProfile.QUALITY_LOW));
+        recorder.setOutputFile(videoFile.toString());
         recorder.setMaxDuration(1000000); // 50 seconds
         recorder.setMaxFileSize(500000000); // Approximately 500 megabytes
+
         recorder.setCaptureRate(fpsRate);
     }
 
