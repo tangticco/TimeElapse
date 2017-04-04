@@ -24,7 +24,7 @@ public class VideoThumbGridAvitivity extends AppCompatActivity {
 
 
     private Context mContext = this;
-    private ArrayList<File> folderGrid = null;
+    private ArrayList<File> videoList = null;
 
 
     @Override
@@ -32,7 +32,7 @@ public class VideoThumbGridAvitivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_video_thumb_grid_avitivity);
 
-        folderGrid = new ArrayList<File>();
+        videoList = new ArrayList<File>();
         getFolderList();
 
         //hook up the grid view
@@ -40,7 +40,7 @@ public class VideoThumbGridAvitivity extends AppCompatActivity {
         Thread gridThread = new Thread(new Runnable() {
             @Override
             public void run() {
-                gridview.setAdapter(new ImageAdapter(mContext, folderGrid));
+                gridview.setAdapter(new ImageAdapter(mContext, videoList));
             }
         }, "Grid Display Thread");
         gridThread.start();
@@ -55,7 +55,7 @@ public class VideoThumbGridAvitivity extends AppCompatActivity {
                 Toast.makeText(VideoThumbGridAvitivity.this, ""  + position,
                         Toast.LENGTH_SHORT).show();
 
-                String filePath = folderGrid.get(position).getAbsolutePath();
+                String filePath = videoList.get(position).getAbsolutePath();
 
                 Intent intent = new Intent(mContext, PlayVideoActivity.class);
                 Bundle b = new Bundle();
@@ -83,12 +83,11 @@ public class VideoThumbGridAvitivity extends AppCompatActivity {
         File storageDir = new File(root.getAbsolutePath() + "/TimeElapse");
         Log.d("Storage Path: ", storageDir.getAbsolutePath());
         for (final File fileEntry : storageDir.listFiles()) {
-            Log.d("Loop", "anything?");
-            if (fileEntry.isDirectory()) {
-                folderGrid.add(fileEntry);
-                Log.d("File Path: ", fileEntry.getAbsolutePath());
+            if (fileEntry.isFile() && fileEntry.getName().contains(".mp4")) {
+                videoList.add(fileEntry);
+                Log.d("Video File Path: ", fileEntry.getAbsolutePath());
             }else{
-                Log.d("Not File Path: ", fileEntry.getAbsolutePath());
+                Log.d("Not Video File Path: ", fileEntry.getAbsolutePath());
             }
         }
 
