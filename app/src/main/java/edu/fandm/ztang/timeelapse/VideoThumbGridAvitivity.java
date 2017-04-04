@@ -2,7 +2,10 @@ package edu.fandm.ztang.timeelapse;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.media.ThumbnailUtils;
 import android.os.Environment;
+import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -24,7 +27,8 @@ public class VideoThumbGridAvitivity extends AppCompatActivity {
 
 
     private Context mContext = this;
-    private ArrayList<File> videoList = null;
+    private ArrayList<String> videoList = null;
+    private ArrayList<Bitmap> thumbList = null;
 
 
     @Override
@@ -32,7 +36,8 @@ public class VideoThumbGridAvitivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_video_thumb_grid_avitivity);
 
-        videoList = new ArrayList<File>();
+        videoList = new ArrayList<String>();
+        thumbList = new ArrayList<Bitmap>();
         getFolderList();
 
         //hook up the grid view
@@ -40,7 +45,7 @@ public class VideoThumbGridAvitivity extends AppCompatActivity {
         Thread gridThread = new Thread(new Runnable() {
             @Override
             public void run() {
-                gridview.setAdapter(new ImageAdapter(mContext, videoList));
+                gridview.setAdapter(new ImageAdapter(mContext, thumbList));
             }
         }, "Grid Display Thread");
         gridThread.start();
@@ -53,7 +58,7 @@ public class VideoThumbGridAvitivity extends AppCompatActivity {
             public void onItemClick(AdapterView<?> parent, android.view.View v,
                                     int position, long id) {
 
-                String filePath = videoList.get(position).getAbsolutePath();
+                String filePath = videoList.get(position);
 
                 Intent intent = new Intent(mContext, PlayVideoActivity.class);
                 Bundle b = new Bundle();
@@ -82,7 +87,9 @@ public class VideoThumbGridAvitivity extends AppCompatActivity {
         Log.d("Storage Path: ", storageDir.getAbsolutePath());
         for (final File fileEntry : storageDir.listFiles()) {
             if (fileEntry.isFile() && fileEntry.getName().contains(".mp4")) {
-                videoList.add(fileEntry);
+                videoList.add(fileEntry.getAbsolutePath());
+                Bitmap thumb = ThumbnailUtils.createVideoThumbnail(fileEntry.getAbsolutePath(), MediaStore.Images.Thumbnails.MINI_KIND);
+                thumbList.add(thumb);
                 Log.d("Video File Path: ", fileEntry.getAbsolutePath());
             }else{
                 Log.d("Not Video File Path: ", fileEntry.getAbsolutePath());

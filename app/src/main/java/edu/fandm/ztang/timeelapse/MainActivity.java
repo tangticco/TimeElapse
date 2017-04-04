@@ -18,6 +18,7 @@ import android.util.Log;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.View;
+import android.widget.SeekBar;
 
 import java.io.File;
 import java.io.IOException;
@@ -32,6 +33,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     boolean recording = false;
 
     private final int PERMS_REQUEST_CODE = 1;
+
+    private double fpsRate = 0.1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,6 +74,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         cameraView.setClickable(true);
         cameraView.setOnClickListener(this);
+
+
+        SeekBar fpsController = (SeekBar)findViewById(R.id.seekBar);
+        if(fpsController.getProgress() != 0){
+            fpsRate = fpsController.getProgress()/fpsController.getMax() * 0.2 + 1;
+        }
+
     }
 
     /**
@@ -88,6 +98,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         recorder.setAudioSource(MediaRecorder.AudioSource.DEFAULT);
         recorder.setVideoSource(MediaRecorder.VideoSource.DEFAULT);
+        recorder.setOrientationHint(90);
 
         // Create the File where the photo should go
         String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
@@ -106,7 +117,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         recorder.setOutputFile(videoFile.getAbsolutePath());
         recorder.setMaxDuration(10000); // 50 seconds
         recorder.setMaxFileSize(500000000); // Approximately 500 megabytes
-        recorder.setCaptureRate(0.8);
+        recorder.setCaptureRate(fpsRate);
     }
 
     private void prepareRecorder() {

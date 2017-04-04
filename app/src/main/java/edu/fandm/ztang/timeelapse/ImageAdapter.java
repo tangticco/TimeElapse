@@ -23,11 +23,11 @@ import java.util.ArrayList;
 
 public class ImageAdapter extends BaseAdapter {
     private Context mContext;
-    private ArrayList<File> videoList = null;
+    private ArrayList<Bitmap> thumbList = null;
     final int THUMBSIZE = 128;
 
-    public ImageAdapter(Context c, ArrayList<File> folders) {
-        videoList = folders;
+    public ImageAdapter(Context c, ArrayList<Bitmap> folders) {
+        thumbList = folders;
         mContext = c;
     }
 
@@ -37,7 +37,7 @@ public class ImageAdapter extends BaseAdapter {
      * @return the number of image thumbnails on screen
      */
     public int getCount() {
-        return videoList.size();
+        return thumbList.size();
     }
 
     /**
@@ -77,11 +77,7 @@ public class ImageAdapter extends BaseAdapter {
         }
 
 
-        String targetFile = videoList.get(position).getAbsolutePath();
-
-        Bitmap thumb = ThumbnailUtils.createVideoThumbnail(targetFile, MediaStore.Images.Thumbnails.MINI_KIND);
-        Log.d("Progress", "should display thumb");
-        imageView.setImageBitmap(thumb);
+        imageView.setImageBitmap(thumbList.get(position));
 
         return imageView;
     }
