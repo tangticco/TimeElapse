@@ -64,6 +64,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             }
         }
 
+        //Set up recorder
         recorder = new MediaRecorder();
         initRecorder();
 
@@ -94,6 +95,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     }
 
+
+    //Initialize the recorder
     private void initRecorder() {
 
         recorder.setAudioSource(MediaRecorder.AudioSource.DEFAULT);
@@ -108,7 +111,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         if(!Dir.exists()){ // Create one if there is not
             Dir.mkdirs();
         }
-        File videoFile = new File(Dir, "TE" + timeStamp + ".mp4");
+        File videoFile = new File(Dir, File.separator + timeStamp + ".mp4");
 
         CamcorderProfile cpHigh = CamcorderProfile
                 .get(CamcorderProfile.QUALITY_HIGH);
@@ -120,6 +123,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         recorder.setCaptureRate(fpsRate);
     }
 
+    // Prepare the recorder
     private void prepareRecorder() {
         recorder.setPreviewDisplay(holder.getSurface());
 
@@ -134,6 +138,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
     }
 
+    // When click on the surface view
     public void onClick(View v) {
         if (recording) {
             recorder.stop();
