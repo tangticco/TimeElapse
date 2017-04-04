@@ -4,9 +4,6 @@ package edu.fandm.ztang.timeelapse;
 import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.hardware.camera2.CameraCaptureSession;
 import android.net.Uri;
 import android.os.Environment;
 import android.provider.MediaStore;
@@ -17,10 +14,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.ImageView;
 
 import java.io.File;
-import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -42,7 +37,8 @@ public class MainActivity extends AppCompatActivity {
         if (permission != PackageManager.PERMISSION_GRANTED) {
             Log.i(TAG, "Permission to record denied");
             //Request runtime permissions
-            String[] permissions = {Manifest.permission.WRITE_EXTERNAL_STORAGE};
+            String[] permissions = {Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                    Manifest.permission.RECORD_AUDIO};
             ActivityCompat.requestPermissions(this, permissions, PERMS_REQUEST_CODE);
 
         }
@@ -85,6 +81,14 @@ public class MainActivity extends AppCompatActivity {
             startActivityForResult(takePictureIntent, REQUEST_TAKE_PHOTO);
         }
     }
+
+
+
+    public void captureVideo(View v){
+        Intent i = new Intent(this, CaptureVideo.class);
+        startActivity(i);
+    }
+
 
 }
 

@@ -4,6 +4,8 @@
 
     <uses-feature android:name="android.hardware.camera2" />
 
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
+    <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <application
@@ -20,10 +22,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
-        <activity android:name=".PlayVideoActivity"/>
-        <activity android:name=".VideoThumbGridAvitivity"/>
-
+        <activity android:name=".PlayVideoActivity" />
+        <activity android:name=".VideoThumbGridAvitivity" />
 
         <provider
             android:name="android.support.v4.content.FileProvider"
@@ -32,10 +32,10 @@
             android:grantUriPermissions="true">
             <meta-data
                 android:name="android.support.FILE_PROVIDER_PATHS"
-                android:resource="@xml/file_paths"></meta-data>
+                android:resource="@xml/file_paths" />
         </provider>
 
-
+        <activity android:name=".CaptureVideo"></activity>
     </application>
 
 </manifest>
