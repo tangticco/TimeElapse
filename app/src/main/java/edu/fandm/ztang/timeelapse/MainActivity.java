@@ -39,6 +39,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private MediaRecorder recorder;
     private SurfaceHolder holder;
     private boolean recording = false;
+    private File videoFile;
 
     private final int PERMS_REQUEST_CODE = 1;
 
@@ -139,7 +140,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         if(!Dir.exists()){ // Create one if there is not
             Dir.mkdirs();
         }
-        File videoFile = new File(Dir.getPath() + File.separator + "VID_" + timeStamp + ".mp4");
+        videoFile = new File(Dir.getPath() + File.separator + "VID_" + timeStamp + ".mp4");
 
 
         recorder.setProfile(CamcorderProfile.get(CamcorderProfile.QUALITY_HIGH));
