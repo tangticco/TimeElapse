@@ -105,8 +105,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         recorder.setProfile(cpHigh);
         recorder.setOutputFile(videoFile.getAbsolutePath());
         recorder.setMaxDuration(10000); // 50 seconds
-        recorder.setMaxFileSize(5000000); // Approximately 5 megabytes
-        recorder.setVideoFrameRate(60);
+        recorder.setMaxFileSize(500000000); // Approximately 500 megabytes
+        recorder.setCaptureRate(0.8);
     }
 
     private void prepareRecorder() {
