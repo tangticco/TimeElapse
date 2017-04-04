@@ -2,11 +2,13 @@ package edu.fandm.ztang.timeelapse;
 
 import android.app.Activity;
 import android.content.pm.ActivityInfo;
+import android.hardware.Camera;
 import android.media.CamcorderProfile;
 import android.media.MediaRecorder;
 import android.os.Environment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.View;
@@ -25,9 +27,9 @@ public class CaptureVideo extends AppCompatActivity implements View.OnClickListe
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        requestWindowFeature(Window.FEATURE_NO_TITLE);
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
-                WindowManager.LayoutParams.FLAG_FULLSCREEN);
+//        requestWindowFeature(Window.FEATURE_NO_TITLE);
+//        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
+//                WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
         recorder = new MediaRecorder();
         initRecorder();
@@ -40,9 +42,11 @@ public class CaptureVideo extends AppCompatActivity implements View.OnClickListe
 
         cameraView.setClickable(true);
         cameraView.setOnClickListener(this);
+
     }
 
     private void initRecorder() {
+
         recorder.setAudioSource(MediaRecorder.AudioSource.DEFAULT);
         recorder.setVideoSource(MediaRecorder.VideoSource.DEFAULT);
 
@@ -58,6 +62,7 @@ public class CaptureVideo extends AppCompatActivity implements View.OnClickListe
 
         CamcorderProfile cpHigh = CamcorderProfile
                 .get(CamcorderProfile.QUALITY_HIGH);
+
         recorder.setProfile(cpHigh);
         recorder.setOutputFile(videoFile.getAbsolutePath());
         recorder.setMaxDuration(10000); // 50 seconds

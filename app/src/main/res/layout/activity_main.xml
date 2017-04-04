@@ -11,36 +11,16 @@ android:paddingTop="16dp"
 tools:context="edu.fandm.ztang.timeelapse.MainActivity"
 android:orientation="vertical">
 
-<Button
-    android:layout_width="200dp"
-    android:layout_height="wrap_content"
-    android:text="Capture Image"
-    android:id="@+id/captureImage"
-    android:layout_gravity="center_horizontal"
-    android:onClick="captureImage"/>
+<SurfaceView
+    android:layout_width="match_parent"
+    android:layout_height="400dp"
+    android:id="@+id/CameraView"/>
+
 
 <Button
-    android:layout_width="200dp"
+    android:id="@+id/albumButton"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:text="Capture Video"
-    android:id="@+id/captureVideo"
-    android:layout_gravity="center_horizontal"
-    android:onClick="captureVideo"/>
-
-
-
-
-<ImageView
-    android:layout_width="350dp"
-    android:layout_height="300dp"
-    android:id="@+id/view"
-    android:layout_gravity="center_horizontal"
-    android:layout_marginTop="20dp"/>
-
-    <Button
-        android:id="@+id/albumButton"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Album"
-        android:onClick="showAlbum"/>
+    android:text="Album"
+    android:onClick="showAlbum"/>
 </LinearLayout>
