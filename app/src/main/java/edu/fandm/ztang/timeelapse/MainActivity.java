@@ -104,12 +104,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             }
         });
 
-        camera = getCameraInstance();
-        camera.setDisplayOrientation(270);
-        //Set up recorder
-        recorder = new MediaRecorder();
-        camera.unlock();
-        recorder.setCamera(camera);
 
 
 //        initRecorder();
@@ -139,6 +133,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     //Initialize the recorder
     private void initRecorder() {
+
+        camera = getCameraInstance();
+        camera.setDisplayOrientation(270);
+        //Set up recorder
+        recorder = new MediaRecorder();
+        camera.unlock();
+        recorder.setCamera(camera);
+
 
         recorder.setAudioSource(MediaRecorder.AudioSource.DEFAULT);
         recorder.setVideoSource(MediaRecorder.VideoSource.DEFAULT);
@@ -183,6 +185,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         if (recording) {
             recorder.stop();
             recording = false;
+            recorder.release();
+
 
             // Let's initRecorder so we can record again
         } else {
