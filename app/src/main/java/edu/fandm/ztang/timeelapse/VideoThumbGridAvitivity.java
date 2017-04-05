@@ -76,23 +76,24 @@ public class VideoThumbGridAvitivity extends AppCompatActivity {
 
 
     /**
-     * Fill the arrayList with all the folders in the directory
+     * Fill the arrayList with all the mp4 files in the directory
      */
     private void getFolderList(){
 
 
-
+        //get the storage directory
         File root = Environment.getExternalStorageDirectory();
         File storageDir = new File(root.getAbsolutePath() + "/TimeElapse");
-        Log.d("Storage Path: ", storageDir.getAbsolutePath());
+
+        //loop through all the mp4 files and store their path into the arraylist
         for (final File fileEntry : storageDir.listFiles()) {
             if (fileEntry.isFile() && fileEntry.getName().contains(".mp4")  && fileEntry.length() > 100) {
                 videoList.add(fileEntry.getAbsolutePath());
                 Bitmap thumb = ThumbnailUtils.createVideoThumbnail(fileEntry.getAbsolutePath(), MediaStore.Images.Thumbnails.MINI_KIND);
+
+                //store the bitmap to a array list to faster the processing
                 thumbList.add(thumb);
-                Log.d("Video File Path: ", fileEntry.getAbsolutePath());
-            }else{
-                Log.d("Not Video File Path: ", fileEntry.getAbsolutePath());
+
             }
         }
 

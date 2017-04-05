@@ -21,7 +21,10 @@ import android.util.Log;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.SeekBar;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import java.io.File;
@@ -30,7 +33,9 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener, SurfaceHolder.Callback{
     private String TAG = "TimeElapse";
@@ -73,23 +78,31 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             }
         }
 
+        //set the spinner for adjusting fps rate
+        Spinner fpsController = (Spinner)findViewById(R.id.spinner);
+        final List<Double> fpsRateMenu = new ArrayList<>();
 
-        final SeekBar fpsController = (SeekBar)findViewById(R.id.seekBar);
-        fpsController.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+        fpsRateMenu.add(0.5);
+        fpsRateMenu.add(1.0);
+        fpsRateMenu.add(5.0);
+        fpsRateMenu.add(10.0);
+
+
+        ArrayAdapter<Double> adapter = new ArrayAdapter<Double>(this, android.R.layout.simple_spinner_item, fpsRateMenu);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        fpsController.setAdapter(adapter);
+
+        fpsController.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
-            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                fpsRate = fpsRateMenu.get(position);
+                Toast.makeText(MainActivity.this, "Recording FPS to " + String.valueOf(fpsRate), Toast.LENGTH_SHORT).show();
+
             }
 
             @Override
-            public void onStartTrackingTouch(SeekBar seekBar) {
-            }
-
-            @Override
-            public void onStopTrackingTouch(SeekBar seekBar) {
-                if(fpsController.getProgress() != 0){
-                    fpsRate = (fpsController.getProgress()/fpsController.getMax()) * 10 + 5 ;
-                }
-                Toast.makeText(MainActivity.this, "FPS set to " + String.valueOf(fpsRate), Toast.LENGTH_SHORT).show();
+            public void onNothingSelected(AdapterView<?> parent) {
+               fpsRate = 5;
             }
         });
 
@@ -111,6 +124,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         cameraView.setOnClickListener(this);
 
 
+        Toast.makeText(this, "Please click to start recording", Toast.LENGTH_SHORT).show();
 
     }
     /**
@@ -183,7 +197,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     public void surfaceCreated(SurfaceHolder holder) {
-//        prepareRecorder();
+
     }
 
     public void surfaceChanged(SurfaceHolder holder, int format, int width,

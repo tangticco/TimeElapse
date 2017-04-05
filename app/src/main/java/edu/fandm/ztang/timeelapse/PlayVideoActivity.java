@@ -30,6 +30,7 @@ import edu.fandm.ztang.timeelapse.ImageAdapter;
 
 public class PlayVideoActivity extends AppCompatActivity {
 
+    //set up some class wide variables
     private MediaController ctlr;
     private boolean isVideoPlaying = false;
     private String filepath = "";
@@ -42,16 +43,11 @@ public class PlayVideoActivity extends AppCompatActivity {
         setContentView(R.layout.activity_play_video);
 
 
+        //retrieve the file path
         Bundle b = getIntent().getExtras();
-
         if(b != null){
             filepath = b.getString("path");
         }
-    }
-
-    private void videoController() {
-
-
     }
 
 
@@ -79,6 +75,7 @@ public class PlayVideoActivity extends AppCompatActivity {
         });
 
 
+        //check if the video is playing or not
         if(!isVideoPlaying){
             myVideo.start();
             isVideoPlaying = true;

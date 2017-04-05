@@ -48,7 +48,6 @@ public class ImageAdapter extends BaseAdapter {
      */
     public Object getItem(int position) {
 
-        //TODO implementation
         return null;
     }
 
@@ -77,6 +76,7 @@ public class ImageAdapter extends BaseAdapter {
         }
 
 
+        //set the image bitmap
         imageView.setImageBitmap(thumbList.get(position));
 
         return imageView;
