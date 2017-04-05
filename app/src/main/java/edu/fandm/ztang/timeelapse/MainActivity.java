@@ -81,13 +81,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         //set the spinner for adjusting fps rate
         Spinner fpsController = (Spinner)findViewById(R.id.spinner);
         final List<Double> fpsRateMenu = new ArrayList<>();
-
         fpsRateMenu.add(0.5);
         fpsRateMenu.add(1.0);
         fpsRateMenu.add(5.0);
         fpsRateMenu.add(10.0);
-
-
         ArrayAdapter<Double> adapter = new ArrayAdapter<Double>(this, android.R.layout.simple_spinner_item, fpsRateMenu);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         fpsController.setAdapter(adapter);
