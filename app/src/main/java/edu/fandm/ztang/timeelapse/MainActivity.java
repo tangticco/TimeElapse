@@ -141,7 +141,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         recorder.setAudioSource(MediaRecorder.AudioSource.DEFAULT);
         recorder.setVideoSource(MediaRecorder.VideoSource.DEFAULT);
-        recorder.setOrientationHint(180);
+        recorder.setOrientationHint(270);
 
         // Create the File where the photo should go
         String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
@@ -182,6 +182,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         if (recording) {
             recorder.stop();
             recording = false;
+
+            // When stop recording, open the album
+            Intent intent = new Intent(this, VideoThumbGridAvitivity.class);
+            startActivity(intent);
 
             // Let's initRecorder so we can record again
         } else {
