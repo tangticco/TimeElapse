@@ -49,6 +49,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private final int PERMS_REQUEST_CODE = 1;
 
     private double fpsRate = 5;
+    private boolean hasRecorded = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -185,9 +186,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
             // Let's initRecorder so we can record again
         } else {
+
             initRecorder();
             prepareRecorder();
-
             recording = true;
             recorder.start();
         }
@@ -207,6 +208,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             recording = false;
         }
         recorder.release();
+        Log.d("Progess: ", " SurfaceView is destroyed");
         finish();
     }
 
